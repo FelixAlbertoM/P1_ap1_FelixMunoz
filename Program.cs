@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using P1_ap1_FelixMunoz.Components;
 using P1_ap1_FelixMunoz.DAL;
+using P1_ap1_FelixMunoz.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ builder.Services.AddRazorComponents()
 var connectionString = builder.Configuration.GetConnectionString("Sqlite");
 
 builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlite(connectionString));
+
+builder.Services.AddScoped<Servicios>();
 
 var app = builder.Build();
 
