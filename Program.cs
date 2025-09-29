@@ -12,7 +12,7 @@ var connectionString = builder.Configuration.GetConnectionString("Sqlite");
 
 builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlite(connectionString));
 
-builder.Services.AddScoped<Servicios>();
+builder.Services.AddScoped<HuacalesServices>();
 
 var app = builder.Build();
 
