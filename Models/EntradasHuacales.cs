@@ -2,7 +2,7 @@
 
 namespace P1_ap1_FelixMunoz.Models;
 
-public class Registros
+public class EntradasHuacales
 {
     [Key]
     public int RegistroId { get; set; }
