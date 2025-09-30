@@ -1,0 +1,174 @@
+﻿@page "/Entradas/Index"
+@using P1_ap1_FelixMunoz.Models
+@using P1_ap1_FelixMunoz.Services
+@inject HuacalesService huacalesService
+@rendermode InteractiveServer
+
+<PageTitle>Consulta de Entradas de Huacales</PageTitle>
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header text-center bg-white">
+            <h5 class="mb-0">Consulta de Entradas de Huacales</h5>
+        </div>
+        <div class="card-body">
+
+            <div class="row align-items-end mb-3">
+                <div class="col-md-3">
+                    <label class="form-label fw-bold">Filtrar por:</label>
+                    <InputSelect class="form-select" @bind-Value="Filtro">
+                        <option value="Id">IdEntrada</option>
+                        <option value="Cliente">NombreCliente</option>
+                    </InputSelect>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label fw-bold">Búsqueda:</label>
+                    <div class="input-group">
+                        <input class="form-control" @bind="ValorFiltro" placeholder="Buscar..." />
+                        <button type="button" class="btn btn-primary" @onclick="Buscar">
+                            <i class="bi bi-search me-1"></i>Buscar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="col-md-4 ms-auto text-end">
+                    <a href="/Entradas/Create" class="btn btn-success">
+                        <i class="bi bi-plus-circle me-1"></i> Crear
+                    </a>
+                </div>
+            </div>
+
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>Id</th>
+                        
+                        <th>Cliente</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Fecha</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (ListaEntradas.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="7" class="text-muted">No se encontraron entradas</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var e in ListaEntradas)
+                        {
+                            <tr>
+                                <td>@e.IdEntrada</td>
+                                
+                                <td>@e.NombreCliente</td>
+                                <td>@e.Cantidad</td>
+                                <td>@e.Precio.ToString("C2")</td>
+                                <td>@e.Fecha.ToShortDateString()</td>
+                                <td>
+                                    <a href="/Entradas/Edit/@e.IdEntrada" class="btn btn-outline-success btn-sm">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-danger btn-sm" @onclick="() => MostraModalEliminar(e)">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <div class="d-flex justify-content-between mt-3">
+                <strong>Total Registros:</strong> @ListaEntradas.Count
+                <strong>Total Huacales:</strong> @ListaEntradas.Sum(e => e.Cantidad)
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (EsVisibleModalEliminar && EntradaSeleccionada != null)
+{
+    <div class="modal d-block" tabindex="-1" style="background: rgba(0,0,0,.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">Confirmar Eliminación</h5>
+                    <button type="button" class="btn-close" @onclick="() => EsVisibleModalEliminar = false"></button>
+                </div>
+                <div class="modal-body">
+                    <p>¿Está seguro de eliminar esta entrada?</p>
+                    <ul>
+                        <li><strong>ID:</strong> @EntradaSeleccionada.IdEntrada</li>
+                        <li><strong>Cliente:</strong> @EntradaSeleccionada.NombreCliente</li>
+                        <li><strong>Cantidad:</strong> @EntradaSeleccionada.Cantidad</li>
+                        <li><strong>Precio:</strong> @EntradaSeleccionada.Precio.ToString("C2")</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="() => EsVisibleModalEliminar = false">Cancelar</button>
+                    <button type="button" class="btn btn-danger" @onclick="EliminarEntrada">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<EntradasHuacales> ListaEntradas { get; set; } = new();
+    private bool EsVisibleModalEliminar = false;
+    private EntradasHuacales? EntradaSeleccionada;
+
+    private string Filtro { get; set; } = "Id";
+    private string ValorFiltro { get; set; } = string.Empty;
+    private DateTime? FechaDesde { get; set; }
+    private DateTime? FechaHasta { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ListaEntradas = await huacalesService.Listar(e => true);
+    }
+
+    private async Task Buscar()
+    {
+        var lista = await huacalesService.Listar(e => true);
+
+        if (!string.IsNullOrWhiteSpace(ValorFiltro))
+        {
+            if (Filtro == "Id" && int.TryParse(ValorFiltro, out int id))
+                lista = lista.Where(e => e.IdEntrada == id).ToList();
+            else if (Filtro == "Cliente")
+                lista = lista.Where(e => e.NombreCliente != null &&
+                          e.NombreCliente.Contains(ValorFiltro, StringComparison.OrdinalIgnoreCase)).ToList();
+        }
+
+        if (FechaDesde != null)
+            lista = lista.Where(e => e.Fecha.Date >= FechaDesde.Value.Date).ToList();
+        if (FechaHasta != null)
+            lista = lista.Where(e => e.Fecha.Date <= FechaHasta.Value.Date).ToList();
+
+        ListaEntradas = lista;
+    }
+
+    private void MostraModalEliminar(EntradasHuacales entrada)
+    {
+        EntradaSeleccionada = entrada;
+        EsVisibleModalEliminar = true;
+    }
+
+    private async Task EliminarEntrada()
+    {
+        if (EntradaSeleccionada != null && await huacalesService.Eliminar(EntradaSeleccionada.IdEntrada))
+        {
+            EsVisibleModalEliminar = false;
+            ListaEntradas = await huacalesService.Listar(e => true);
+        }
+    }
+}
