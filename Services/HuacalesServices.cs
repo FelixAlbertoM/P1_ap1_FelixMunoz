@@ -10,16 +10,10 @@ public class HuacalesService(IDbContextFactory<Contexto> DbFactory)
     public async Task<bool> Guardar(EntradasHuacales entradasHuacales)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
-
-        if (await ExisteNombre(entradasHuacales.NombreCliente, entradasHuacales.IdEntrada))
-            return false;
-
-        if (entradasHuacales.IdEntrada == 0)
-            contexto.EntradasHuacales.Add(entradasHuacales);
-        else
-            contexto.EntradasHuacales.Update(entradasHuacales);
+        contexto.Entry(entradasHuacales).State = entradasHuacales.IdEntrada == 0 ? EntityState.Added : EntityState.Modified;
 
         return await contexto.SaveChangesAsync() > 0;
+
     }
     public async Task<bool> Existe(int IdEntrada)
     {

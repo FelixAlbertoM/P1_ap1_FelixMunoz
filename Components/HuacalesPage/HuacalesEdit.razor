@@ -9,42 +9,53 @@
 
 @if (entrada != null)
 {
-    <EditForm Model="entrada" OnValidSubmit="GuardarCambios">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <div class="mb-3">
-            <label class="form-label fw-bold">Fecha</label>
-            <InputDate class="form-control" @bind-Value="entrada.Fecha" />
-            <ValidationMessage For="@(() => entrada.Fecha)" />
+    <div class="card-shadow">
+        <div class="card-header bg-white text-center">
+            <h5 class="mb-0" ">Editar Entrada</h5>
         </div>
+        <div class="card-body">
+            <EditForm Model="entrada" OnValidSubmit="GuardarCambios">
+                <DataAnnotationsValidator />
 
-        <div class="mb-3">
-            <label class="form-label fw-bold">Nombre del Cliente</label>
-            <InputText class="form-control" @bind-Value="entrada.NombreCliente" />
-            <ValidationMessage For="@(() => entrada.NombreCliente)" />
-        </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Fecha</label>
+                    <InputDate class="form-control" @bind-Value="entrada.Fecha" />
+                    <ValidationMessage For="@(() => entrada.Fecha)" />
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label fw-bold">Cantidad</label>
-            <InputNumber class="form-control" @bind-Value="entrada.Cantidad" />
-            <ValidationMessage For="@(() => entrada.Cantidad)" />
-        </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nombre del Cliente</label>
+                    <InputText class="form-control" @bind-Value="entrada.NombreCliente" />
+                    <ValidationMessage For="@(() => entrada.NombreCliente)" />
+                </div>
 
-        <div class="mb-3">
-            <label class="form-label fw-bold">Precio</label>
-            <InputNumber class="form-control" @bind-Value="entrada.Precio" />
-            <ValidationMessage For="@(() => entrada.Precio)" />
-        </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Cantidad</label>
+                    <InputNumber class="form-control" @bind-Value="entrada.Cantidad" />
+                    <ValidationMessage For="@(() => entrada.Cantidad)" />
+                </div>
 
-        <div class="d-flex justify-content-end gap-2 mt-3">
-            <button type="submit" class="btn btn-primary">
-                <i class="bi bi-save"></i> Guardar Cambios
-            </button>
-            <a href="/Entradas/Index" class="btn btn-secondary">Cancelar</a>
-            <button type="button" class="btn btn-danger" @onclick="() => EsVisibleModalEliminar = true">Eliminar</button>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Precio</label>
+                    <InputNumber class="form-control" @bind-Value="entrada.Precio" />
+                    <ValidationMessage For="@(() => entrada.Precio)" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Importe</label>
+                    <input class="form-control" readonly value="@( (entrada.Cantidad * entrada.Precio).ToString("C2") )" />
+                </div>
+
+                <div class="d-flex justify-content-end gap-2 mt-3">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-save"></i> Guardar Cambios
+                    </button>
+                    <a href="/Entradas/Index" class="btn btn-secondary">Cancelar</a>
+                    <button type="button" class="btn btn-danger" @onclick="() => EsVisibleModalEliminar = true">Eliminar</button>
+                </div>
+            </EditForm>
         </div>
-    </EditForm>
+    </div>
 }
 else
 {
