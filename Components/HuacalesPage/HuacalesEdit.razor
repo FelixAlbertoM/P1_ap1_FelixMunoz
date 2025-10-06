@@ -104,10 +104,11 @@ else
     {
         if (entrada == null) return;
 
-        if (await huacalesService.Guardar(entrada))
+        else if (await huacalesService.Guardar(entrada))
+        {
             navigationManager.NavigateTo("/Entradas/Index");
-        else
-            MensajeError = "Ya existe una entrada con ese cliente y fecha.";
+        }
+
     }
 
     private async Task ConfirmarEliminar()
