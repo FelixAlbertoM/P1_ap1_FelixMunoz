@@ -14,6 +14,15 @@
         <div class="card-body">
 
             <div class="row align-items-end mb-3">
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Desde:</label>
+                    <InputDate class="form-control" @bind-Value="FechaDesde" />
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label fw-bold">Hasta:</label>
+                    <InputDate class="form-control" @bind-Value="FechaHasta" />
+                </div>
+
                 <div class="col-md-3">
                     <label class="form-label fw-bold">Filtrar por:</label>
                     <InputSelect class="form-select" @bind-Value="Filtro">
@@ -43,11 +52,11 @@
                 <thead class="table-light">
                     <tr>
                         <th>Id</th>
-                        
+                        <th>Fecha</th>
                         <th>Cliente</th>
                         <th>Cantidad</th>
                         <th>Precio</th>
-                        <th>Fecha</th>
+                        <th>Importe</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
                     </tr>
@@ -70,6 +79,7 @@
                                 <td>@e.Cantidad</td>
                                 <td>@e.Precio.ToString("C2")</td>
                                 <td>@e.Fecha.ToShortDateString()</td>
+                                <td>@( (e.Cantidad * e.Precio).ToString("C2") )</td>
                                 <td>
                                     <a href="/Entradas/Edit/@e.IdEntrada" class="btn btn-outline-success btn-sm">
                                         <i class="bi bi-pencil"></i>
@@ -88,7 +98,8 @@
 
             <div class="d-flex justify-content-between mt-3">
                 <strong>Total Registros:</strong> @ListaEntradas.Count
-                <strong>Total Huacales:</strong> @ListaEntradas.Sum(e => e.Cantidad)
+                <strong>Total General:</strong> @ListaEntradas.Sum(e => e.Cantidad * e.Precio).ToString("C2")
+
             </div>
         </div>
     </div>

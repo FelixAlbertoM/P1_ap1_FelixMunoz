@@ -15,8 +15,7 @@
         <div class="card-body">
             <EditForm Model="entrada" OnValidSubmit="Guardar">
                 <DataAnnotationsValidator />
-                <ValidationSummary />
-
+                
                 
                 <div class="mb-3">
                     <label class="form-label fw-bold">Fecha</label>
@@ -44,6 +43,11 @@
                     <InputNumber class="form-control" @bind-Value="entrada.Precio" />
                     <ValidationMessage For="@(() => entrada.Precio)" />
                 </div>
+                
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Importe</label>
+                    <input class="form-control" readonly value="@( (entrada.Cantidad * entrada.Precio).ToString("C2") )" />
+                </div>
 
               
                 <div class="d-flex justify-content-end gap-2 mt-3">
@@ -59,10 +63,6 @@
     </div>
 </div>
 
-@if (!string.IsNullOrEmpty(mensajeError))
-{
-    <div class="alert alert-danger mt-2">@mensajeError</div>
-}
 
 @code {
     private string mensajeError = string.Empty;
