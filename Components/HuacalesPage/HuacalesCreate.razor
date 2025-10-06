@@ -76,8 +76,6 @@
     {
         if (await huacalesService.Guardar(entrada))
             navigationManager.NavigateTo("/Entradas/Index");
-        else
-            mensajeError = " Ya existe una entrada con ese cliente y fecha.";
     }
 }
 
