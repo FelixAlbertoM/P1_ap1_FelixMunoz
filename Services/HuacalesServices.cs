@@ -21,13 +21,6 @@ public class HuacalesService(IDbContextFactory<Contexto> DbFactory)
         return await contexto.EntradasHuacales.AnyAsync(e => e.IdEntrada == IdEntrada);
     }
 
-    public async Task<bool> ExisteNombre(string nombre, int empleadoId = 0)
-    {
-        await using var contexto = await DbFactory.CreateDbContextAsync();
-        return await contexto.EntradasHuacales
-            .AnyAsync(e => e.NombreCliente == nombre && e.IdEntrada != empleadoId);
-    }
-
     public async Task<bool> Insertar(EntradasHuacales entradasHuacales)
     {
         await using var contexto = await DbFactory.CreateDbContextAsync();
