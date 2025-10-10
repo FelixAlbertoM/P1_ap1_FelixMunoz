@@ -62,19 +62,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (ListaEntradas.Count == 0)
-                    {
-                        <tr>
-                            <td colspan="7" class="text-muted">No se encontraron entradas</td>
-                        </tr>
-                    }
-                    else
-                    {
-                        @foreach (var e in ListaEntradas)
+                    @foreach (var e in ListaEntradas)
                         {
+                        var total = e.DetalleHuacales.Sum(d => d.Cantidad * d.Precio);
                             <tr>
                                 <td>@e.IdEntrada</td>
-                                
                                 <td>@e.NombreCliente</td>
                                 <td>@e.Cantidad</td>
                                 <td>@e.Precio.ToString("C2")</td>
@@ -92,7 +84,6 @@
                                 </td>
                             </tr>
                         }
-                    }
                 </tbody>
             </table>
 
