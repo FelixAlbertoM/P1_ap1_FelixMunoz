@@ -20,4 +20,8 @@ public class EntradasHuacales
     [Range(0.01, double.MaxValue, ErrorMessage = "El precio debe ser mayor a 0")]
     public double Precio { get; set; }
 
+    [InverseProperty("EntradaHuacal")]
+    public virtual ICollection<EntradasHuacalesDetalle> DetalleHuacales { get; set; } = new List<EntradasHuacalesDetalle>();
+
 }
+
