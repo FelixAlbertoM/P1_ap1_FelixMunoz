@@ -11,7 +11,7 @@ using P1_ap1_FelixMunoz.DAL;
 namespace P1_ap1_FelixMunoz.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20251009211838_Inicial")]
+    [Migration("20251010155548_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
