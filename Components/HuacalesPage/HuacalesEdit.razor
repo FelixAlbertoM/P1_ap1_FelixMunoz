@@ -64,7 +64,7 @@
                                     <option value="0">Seleccione un tipo</option>
                                     @foreach (var tipo in ListaTiposHuacales)
                                     {
-                                        <option value="@tipo.IdTipo">@tipo.Descripcion</option>
+                                        <option value="@tipo.IdTipo">@tipo.Descripcion (Existencia: @tipo.Existencia)</option>
                                     }
                                 </InputSelect>
                             </div>

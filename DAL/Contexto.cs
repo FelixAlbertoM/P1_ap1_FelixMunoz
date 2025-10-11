@@ -20,25 +20,25 @@ public class Contexto : DbContext
                 {
                     IdTipo = 1,
                     Descripcion = "Huacal Rojo - Grande",
-                    Existencia = 100
+                    Existencia = 20
                 },
                 new()
                 {
                     IdTipo = 2,
                     Descripcion = "Huacal verde - Grande",
-                    Existencia = 150
+                    Existencia = 20
                 },
                 new()
                 {
                     IdTipo = 3,
                     Descripcion = "Huacal verde - Pequeña",
-                    Existencia = 200
+                    Existencia = 20
                 },
                  new()
                 {
                     IdTipo = 4,
                     Descripcion = "Huacal Rojo - Pequeña",
-                    Existencia = 0,
+                    Existencia = 20,
                 },
             }
         );

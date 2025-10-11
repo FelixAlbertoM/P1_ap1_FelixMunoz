@@ -61,9 +61,10 @@
                                 <option value="0">Seleccione un tipo</option>
                                 @foreach (var tipo in ListaTiposHuacales)
                                 {
-                                    <option value="@tipo.IdTipo">@tipo.Descripcion</option>
+                                    <option value="@tipo.IdTipo">@tipo.Descripcion (Existencia: @tipo.Existencia)</option>
                                 }
                             </InputSelect>
+
                         </div>
 
                         <div class="col-md-3">
@@ -135,6 +136,7 @@
     private EntradasHuacales entradasHuacales = new EntradasHuacales();
     private EntradasHuacalesDetalle DetalleSeleccionado = new();
     private List<TiposHuacales> ListaTiposHuacales = new();
+    private int ExistenciaActual { get; set; } = 0;
 
     
 
