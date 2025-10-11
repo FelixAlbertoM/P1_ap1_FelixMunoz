@@ -1,7 +1,11 @@
+
 using Microsoft.EntityFrameworkCore;
 using P1_ap1_FelixMunoz.Components;
 using P1_ap1_FelixMunoz.DAL;
 using P1_ap1_FelixMunoz.Services;
+using BlazorBootstrap;
+using ToastService = BlazorBootstrap.ToastService;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +17,10 @@ var connectionString = builder.Configuration.GetConnectionString("SqlConStr");
 builder.Services.AddDbContextFactory<Contexto>(o => o.UseSqlite(connectionString));
 
 builder.Services.AddScoped<HuacalesService>();
+
+builder.Services.AddBlazorBootstrap();
+
+
 
 var app = builder.Build();
 
